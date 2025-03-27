@@ -4,11 +4,13 @@ import cors from 'cors';
 import env from 'dotenv';
 import cookieParser  from 'cookie-parser';
 import {connectDB} from './db.js'
+import router from './Routes/auth-route.js';
 const app = express();
 env.config();
 connectDB();
 app.use(cookieParser());
 app.use(express.json());
+app.use('/api/auth',router)
 app.use(
     cors({
         origin : 'http://localhost:5173/',
