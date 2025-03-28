@@ -4,14 +4,18 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 const initailState ={
   userName: '',
-  password: '',
-  email:''
+  email:'',
+  password: ''
+  
 }
-function onSubmit(){
 
-}
 const Register = () => {
   const [formData,setFormData] =useState(initailState)
+  function onSubmit(e){
+  e.preventDefault()
+  console.log(formData)    
+
+  }
   return (
     <div className='mx-auto w-full max-w-md space-y-6'>
       <div className='text-center'>
