@@ -3,7 +3,9 @@ import { registerFormControls } from '@/config/config'
 import { registerUser } from '@/store/auth-slice'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { Link, useNavigate } from 'react-router-dom'
+import { data, Link, useNavigate } from 'react-router-dom'
+import { toast } from "sonner"
+
 const initailState ={
   userName: '',
   email:'',
@@ -16,7 +18,13 @@ const Register = () => {
   const navigate = useNavigate()
   function onSubmit(e){
   e.preventDefault()
-  dispatch(registerUser(formData)).then(()=>{navigate("/auth/login")})
+  dispatch(registerUser(formData)).then( data => {
+    if(data?.payload?.success){
+      toast(data?.payload?.message)
+      navigate('/auth/login')
+      } 
+    }
+  )
   
    
 

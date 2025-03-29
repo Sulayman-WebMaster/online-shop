@@ -21,7 +21,8 @@ const Login = () => {
       <Form
       formcontrols={loginFormControls}
       buttonText={'Sign In'}
-      formData={setFormData}
+      formData={formData}
+      setFormData={setFormData}
       onSubmit={onSubmit}
        />
     </div>
