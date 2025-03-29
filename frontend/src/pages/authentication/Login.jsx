@@ -1,16 +1,32 @@
 import Form from '@/components/common/Form'
 import { loginFormControls } from '@/config/config'
+import { loginUser } from '@/store/auth-slice'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 const initailState ={
+  email:'',
   password: '',
-  email:''
+  
 }
-function onSubmit(){
 
-}
 const Login = () => {
   const [formData,setFormData] =useState(initailState)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  function onSubmit(e){
+    e.preventDefault()
+    dispatch(loginUser(formData)).then( data => {
+      console.log(data)
+      if(data?.payload?.success){
+        toast(data.payload?.message)
+        navigate('/shop/home')
+        } 
+      }
+    )
+  
+  }
   return (
     <div className='mx-auto w-full max-w-md space-y-6'>
       <div className='text-center'>

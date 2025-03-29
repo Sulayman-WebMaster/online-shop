@@ -17,6 +17,27 @@ export const registerUser = createAsyncThunk('/auth/register',
    
     }
 )
+export const loginUser = createAsyncThunk('/auth/login',
+    async(formData)=>{
+        const response = await axios.post('http://localhost:5000/api/auth/login',formData,{
+            withCredentials: true,
+        })
+        return response.data ;
+   
+    }
+)
+export const checkAuth = createAsyncThunk('/check-auth',
+    async()=>{
+        const response = await axios.get('http://localhost:5000/api/auth/check-auth',{
+            withCredentials: true,
+            headers:{
+                'cache-control':'no-store, no-cache,must-revalidate,proxy-revalidate',
+                Expires:'0',
+        }})
+        return response.data ;
+   
+    }
+)
 
 
 const authSlice = createSlice({
@@ -35,6 +56,28 @@ const authSlice = createSlice({
             state.isAuthenicated = false;
             state.user = null;
         }).addCase(registerUser.rejected,(state,action)=>{
+            state.isLoading = false;
+            state.isAuthenicated = false;
+            state.user = null;
+        })
+       builder.addCase(loginUser.pending,(state)=>{
+            state.isLoading = true;
+        }).addCase(loginUser.fulfilled,(state,action)=>{
+            state.isLoading = false;
+            state.isAuthenicated = action.payload.success;
+            state.user = action.payload.success?  action.payload.user : null;
+        }).addCase(loginUser.rejected,(state,action)=>{
+            state.isLoading = false;
+            state.isAuthenicated = false;
+            state.user = null;
+        })
+       builder.addCase(checkAuth.pending,(state)=>{
+            state.isLoading = true;
+        }).addCase(checkAuth.fulfilled,(state,action)=>{
+            state.isLoading = false;
+            state.isAuthenicated = action.payload.success;
+            state.user = action.payload.success?  action.payload.user : null;
+        }).addCase(checkAuth.rejected,(state,action)=>{
             state.isLoading = false;
             state.isAuthenicated = false;
             state.user = null;
