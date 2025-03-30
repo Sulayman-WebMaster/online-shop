@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { checkAuth } from './store/auth-slice'
 import { Skeleton } from './components/ui/skeleton'
+import Products from './pages/admin/Products'
 
 
 function App() {
@@ -47,10 +48,10 @@ const {isAuthenticated,user,isLoading} = useSelector(state => state.auth )
         <Route path="/admin" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}>
           <AdminLayout />
         </CheckAuth>}>
-          <Route path="Dashboard" element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="orders" element={<Orders />} />
           <Route path="features" element={<Features />} />
-          <Route path="features" element={<Features />} />
+          <Route path="products" element={<Products />} />
         </Route>
         {/* shopping routes  */}
         <Route path="/shop" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}>
