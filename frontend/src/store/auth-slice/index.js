@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 const initialState = {
-    isAuthenicated: false,
+    isAuthenticated: false, 
     isLoading: false,
     user: null
 
@@ -22,7 +22,8 @@ export const loginUser = createAsyncThunk('/auth/login',
         const response = await axios.post('http://localhost:5000/api/auth/login',formData,{
             withCredentials: true,
         })
-        return response.data ;
+        return response.data 
+       
    
     }
 )
@@ -53,33 +54,33 @@ const authSlice = createSlice({
             state.isLoading = true;
         }).addCase(registerUser.fulfilled,(state,action)=>{
             state.isLoading = false;
-            state.isAuthenicated = false;
+            state.isAuthenticated = false;
             state.user = null;
         }).addCase(registerUser.rejected,(state,action)=>{
             state.isLoading = false;
-            state.isAuthenicated = false;
+            state.isAuthenticated = false;
             state.user = null;
         })
        builder.addCase(loginUser.pending,(state)=>{
             state.isLoading = true;
         }).addCase(loginUser.fulfilled,(state,action)=>{
             state.isLoading = false;
-            state.isAuthenicated = action.payload.success;
+            state.isAuthenticated = action.payload.success;
             state.user = action.payload.success?  action.payload.user : null;
         }).addCase(loginUser.rejected,(state,action)=>{
             state.isLoading = false;
-            state.isAuthenicated = false;
+            state.isAuthenticated = false;
             state.user = null;
         })
        builder.addCase(checkAuth.pending,(state)=>{
             state.isLoading = true;
         }).addCase(checkAuth.fulfilled,(state,action)=>{
             state.isLoading = false;
-            state.isAuthenicated = action.payload.success;
+            state.isAuthenticated = action.payload.success;
             state.user = action.payload.success?  action.payload.user : null;
         }).addCase(checkAuth.rejected,(state,action)=>{
             state.isLoading = false;
-            state.isAuthenicated = false;
+            state.isAuthenticated = false;
             state.user = null;
         })
     }

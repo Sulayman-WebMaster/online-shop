@@ -21,7 +21,10 @@ import { checkAuth } from './store/auth-slice'
 
 
 function App() {
-const {isAuthenticated,user} = useSelector(state => state.auth)
+
+
+const {isAuthenticated,user} = useSelector(state => state.auth )
+console.log(isAuthenticated)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(checkAuth())

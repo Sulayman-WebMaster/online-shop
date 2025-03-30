@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'
 import { toast } from 'sonner';
 import Form from '@/components/common/Form';
 import { loginFormControls } from '@/config/config';
 import { loginUser } from '@/store/auth-slice';
+
 
 // Initial state for the form data
 const initialState = {
@@ -23,13 +24,11 @@ const Login = () => {
 
     try {
       const response =  dispatch(loginUser(formData));
-      const { payload } = response;
+      const payload = await response.unwrap(); 
 
-
-      // Check for successful login
       if (payload?.success) {
-        toast.success(payload.message || 'Login successful!');
-        navigate('/shop/home');
+        toast.success(payload.message || 'Login successful!')
+        navigate('/shop/home'); // Redirect to the home page after successful login
       } else {
         toast.error(payload?.message || 'Login failed! Please try again.');
       }
