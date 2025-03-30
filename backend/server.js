@@ -21,6 +21,8 @@ app.use(
             'X-Requested-With',
             'Accept',
             'Origin',
+            'Expires',
+            'Cache-Control',
         ]
     })
 )

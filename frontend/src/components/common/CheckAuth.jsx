@@ -1,25 +1,34 @@
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
-const CheckAuth = ({isAuthenticated,user,children}) => {
+const CheckAuth = ({ isAuthenticated, user, children }) => {
     const location = useLocation();
-    if(!isAuthenticated && !(location.pathname.includes('/login') || !(location.pathname.includes('/register')))){
+
+    // If not authenticated and trying to access non-auth pages
+    if (!isAuthenticated && !(location.pathname.includes('/login') || location.pathname.includes('/register'))) {
         return <Navigate to="/auth/login" />
     }
-    if(isAuthenticated && (location.pathname.includes('/login' || location.pathname.includes("/register")))){
-        if(user?.role === 'admin'){
+
+    // If authenticated and trying to access login or register
+    if (isAuthenticated && (location.pathname.includes('/login') || location.pathname.includes("/register"))) {
+        if (user?.role === 'admin') {
             return <Navigate to="/admin/Dashboard" />
-        }else{
+        } else {
             return <Navigate to="/shop/home" />
         }
     }
-    if(isAuthenticated && user?.role !== 'admin' && location.pathname.includes("admin")){
+
+    // If authenticated and user is not admin trying to access admin pages
+    if (isAuthenticated && user?.role !== 'admin' && location.pathname.includes("admin")) {
         return <Navigate to="/unauth-page" />
     }
-    if(isAuthenticated && user?.role === 'admin' && location.pathname.includes('shop')){
-        return <Navigate to='admin/Dashboard' />
+
+    // If authenticated admin trying to access shop pages
+    if (isAuthenticated && user?.role === 'admin' && location.pathname.includes('shop')) {
+        return <Navigate to='/admin/Dashboard' />
     }
-  return <>{children}</>
+
+    return <>{children}</>
 }
 
 export default CheckAuth
