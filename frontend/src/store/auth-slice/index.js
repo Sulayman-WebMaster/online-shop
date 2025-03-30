@@ -4,7 +4,7 @@ import axios from "axios";
 
 const initialState = {
     isAuthenticated: false, 
-    isLoading: false,
+    isLoading: true,
     user: null
 
 }
@@ -13,7 +13,9 @@ export const registerUser = createAsyncThunk('/auth/register',
         const response = await axios.post('http://localhost:5000/api/auth/register',formData,{
             withCredentials: true,
         })
+        console.log(response)
         return response.data ;
+
    
     }
 )

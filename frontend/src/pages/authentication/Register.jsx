@@ -16,20 +16,25 @@ const Register = () => {
   const [formData,setFormData] =useState(initailState)
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  function onSubmit(e){
-  e.preventDefault()
-  dispatch(registerUser(formData)).then( data => {
-    if(data?.payload?.success){
-      toast(data?.payload?.message)
-      navigate('/auth/login')
-      } 
-    }
-  )
+  const onSubmit = async (e) => {
   
-   
-
-  }
-  return (
+ try {
+   e.preventDefault()
+   const res = dispatch(registerUser(formData))
+   const payload = await res.unwrap(); 
+   if (payload?.success) {
+     toast.success(payload.message || 'Registration successful!')
+     navigate('/auth/login'); // Redirect to the login page after successful registration
+   } else {
+     toast.error(payload?.message || 'Registration failed! Please try again.');
+   }
+ } catch (error) {
+   console.error('Registration error:', error);
+   toast.error('An error occurred. Please try again.');
+  
+ }
+}
+ return (
     <div className='mx-auto w-full max-w-md space-y-6'>
       <div className='text-center'>
         <h1 className='text-3xl font-bold tracking-tight text-foreground'>Create a new account</h1>
