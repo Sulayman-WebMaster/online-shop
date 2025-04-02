@@ -33,7 +33,7 @@ const Products = () => {
       <Sheet open={products} onOpenChange={()=> setProducts(false)}>
         <SheetContent position='right' className='overflow-auto p-4'>
           <SheetHeader>
-            <ImageUpload file={image} setFile={setImage} uploadImage={uploadImage} setUploadImage={setUploadImage} />
+            <ImageUpload file={image} setImage={setImage} uploadImage={uploadImage} setUploadImage={setUploadImage} />
             <SheetTitle>
               Add New Product
             </SheetTitle>
