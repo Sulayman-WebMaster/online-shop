@@ -33,10 +33,11 @@ const Products = () => {
       <Sheet open={products} onOpenChange={()=> setProducts(false)}>
         <SheetContent position='right' className='overflow-auto p-4'>
           <SheetHeader>
-            <ImageUpload file={image} setImage={setImage} uploadImage={uploadImage} setUploadImage={setUploadImage} />
-            <SheetTitle>
-              Add New Product
+          <SheetTitle>
+              <p className='text-2xl'>Add New Product</p>
             </SheetTitle>
+            <ImageUpload image={image} setImage={setImage} uploadImage={uploadImage} setUploadImage={setUploadImage} />
+           
           </SheetHeader>
           <div className='py-6'>
             <Form formcontrols={addProductFormElements} setFormData={setFormData} formData={formData} onSubmit={onSubmit} />

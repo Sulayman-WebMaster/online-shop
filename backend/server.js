@@ -4,7 +4,8 @@ import cors from 'cors';
 import env from 'dotenv';
 import cookieParser  from 'cookie-parser';
 import {connectDB} from './db.js'
-import router from './Routes/auth-route.js';
+import router from './Routes/auth-route.js'
+import productRouter from './Routes/products-route.js';
 const app = express();
 env.config();
 connectDB();
@@ -27,5 +28,6 @@ app.use(
     })
 )
 app.use('/api/auth',router)
+app.use('/api/admin/products',productRouter)
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, ()=> console.log(`server running ${PORT}`))

@@ -2,12 +2,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@radix-ui/react-label'
 import { FileIcon, UploadCloudIcon, XIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
+import axios from 'axios'
 
-const ImageUpload = ({ uploadImage, setUploadImage, onSubmit }) => {
+const ImageUpload = ({ image,setImage,uploadImage, setUploadImage, onSubmit }) => {
   const inputRef = useRef(null)
-  const [image, setImage] = useState(null)
-
   const handleImageFileChange = (event) => {
     const selectedFile = event.target.files?.[0]
     if (selectedFile) {
@@ -24,11 +23,11 @@ const ImageUpload = ({ uploadImage, setUploadImage, onSubmit }) => {
   const handleDrop = (event) => {
     event.preventDefault()
     const droppedFile = event.dataTransfer.files?.[0]
-    if (droppedFile) {
+    if (droppedFile){ 
       setImage(droppedFile)
-      setUploadImage(droppedFile)
-    }
-  }
+    } }
+
+  
 
   const handleRemoveImage = () => {
     setImage(null)
@@ -37,6 +36,18 @@ const ImageUpload = ({ uploadImage, setUploadImage, onSubmit }) => {
       inputRef.current.value = ''
     }
   }
+  async function uploadImageToCloudinary(){
+   
+      const data = new FormData();
+      data.append('my_file',image)
+      const res = await axios.post('http://localhost:5000/api/admin/products/upload-image', data)
+      console.log(res, "response")
+      if(res) setUploadImage(res.data)
+   
+  }
+  useEffect(()=>{
+   if(image !== null) uploadImageToCloudinary();
+  },[image])
 
   return (
     <div className='w-full max-w-md mx-auto'>
@@ -65,18 +76,14 @@ const ImageUpload = ({ uploadImage, setUploadImage, onSubmit }) => {
               <FileIcon className='w-10 h-10 text-muted-foreground mr-2' />
               <span className='truncate'>{image.name}</span>
             </div>
-            <Button variant='ghost' className='text-muted-foreground hover:text-foreground' onClick={handleRemoveImage}>
+            <Button variant='ghost' size="icon" className='text-muted-foreground hover:text-foreground' onClick={handleRemoveImage}>
               <XIcon className='w-4 h-4 text-red-500' />
               <span className='sr-only'>Remove File</span>
             </Button>
           </div>
         )}
       </div>
-      {image && (
-        <Button className='mt-4 w-full' onClick={onSubmit}>
-          Submit
-        </Button>
-      )}
+    
     </div>
   )
 }
